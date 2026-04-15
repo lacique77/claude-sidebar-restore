@@ -103,6 +103,10 @@ The folder contains files named `local_<long-random-id>.json` — one per sessio
 
 Already-indexed sessions are detected and skipped automatically. Re-running is always safe.
 
+## Known limitations
+
+**Session titles show the raw first message, not a clean summary.** Claude Desktop normally generates a short AI summary title after you interact with a session and saves it back to the index file. Since that summary is not stored in the `.jsonl` transcript, the script uses the first message as the title instead. The titles will look messy for sessions that started with a slash command, terminal output, or a long message. They will be replaced automatically with proper summaries the next time you open each session and send a message.
+
 ## Contributing
 
 If you run into a case the script doesn't handle (different OS path, app update changed the schema, etc.), please open an issue with:
