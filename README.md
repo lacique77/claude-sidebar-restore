@@ -1,10 +1,14 @@
 # claude-sidebar-restore
 
-Restore the Claude Desktop app sidebar session list after an uninstall, reinstall, or update wiped it.
+Restore lost **Claude Code** sessions in the Claude Desktop app sidebar after an uninstall, reinstall, or update wiped the session index.
+
+> **This is for Claude Code (the AI coding assistant) sessions** — the ones that appear in the left sidebar when you use Claude Desktop in Code mode. It does NOT affect regular Claude chat conversations.
 
 ## The problem
 
-When the Claude Desktop app is uninstalled or auto-updated, the sidebar that lists all your previous sessions goes blank. The actual chat transcripts (`.jsonl` files in `~/.claude/projects/`) are **never deleted** — they survive the uninstall. Only the tiny pointer files the sidebar reads are wiped.
+You use **Claude Desktop** (the Windows/macOS app) in **Code mode** — the sidebar on the left shows all your previous Claude Code sessions. After an uninstall, reinstall, or auto-update, that sidebar goes blank. Every session appears gone.
+
+They are not gone. The actual chat transcripts (`.jsonl` files in `~/.claude/projects/`) are **never deleted** — they survive the uninstall. Only the tiny pointer files the Desktop app sidebar reads are wiped. This script regenerates those pointer files so the sidebar shows all your sessions again.
 
 This is a [known Anthropic bug](https://github.com/anthropics/claude-code/issues/29172) with multiple open reports ([#29373](https://github.com/anthropics/claude-code/issues/29373), [#25524](https://github.com/anthropics/claude-code/issues/25524), [#26452](https://github.com/anthropics/claude-code/issues/26452), [#31787](https://github.com/anthropics/claude-code/issues/31787), [#38691](https://github.com/anthropics/claude-code/issues/38691)). No official fix has shipped as of April 2026.
 
