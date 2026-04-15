@@ -39,10 +39,10 @@ python restore_sidebar.py --dry-run
 python restore_sidebar.py --pilot 3
 
 # Specify a particular project folder (if you have multiple projects)
-python restore_sidebar.py --project "/path/to/.claude/projects/my-project"
+python restore_sidebar.py --project "C:\Users\YourName\.claude\projects\my-project"
 
-# Specify the target index folder manually (if auto-detect fails)
-python restore_sidebar.py --target "/path/to/claude-code-sessions/<accountId>/<orgId>"
+# If auto-detect fails, see "Finding the session index folder manually" below
+python restore_sidebar.py --target "<paste the folder path here>"
 ```
 
 ## Recommended steps
@@ -54,41 +54,52 @@ python restore_sidebar.py --target "/path/to/claude-code-sessions/<accountId>/<o
 5. Run `python restore_sidebar.py` for the full restore
 6. Open Claude Desktop — all sessions should be back
 
-## Session index locations
+## Finding the session index folder manually
 
-The script auto-detects these, but for reference:
+The script finds this folder automatically in most cases. If it fails (e.g. after an unusual install), here is how to find it yourself.
 
-| Platform | Path |
-|---|---|
-| Windows (Store) | `%LOCALAPPDATA%\Packages\Claude_*\LocalCache\Roaming\Claude\claude-code-sessions\<acct>\<org>\` |
-| Windows (direct) | `%APPDATA%\Claude\claude-code-sessions\<acct>\<org>\` |
-| macOS | `~/Library/Application Support/Claude/claude-code-sessions/<acct>/<org>/` |
-| Linux | `~/.config/Claude/claude-code-sessions/<acct>/<org>/` |
+The folder contains files named `local_<long-random-id>.json` — one per session.
 
-## Schema
+### Windows (installed from the Microsoft Store)
 
-The generated `local_<uuid>.json` files match the format the app writes itself, verified by extracting and reading the app's source (`app.asar` → `.vite/build/index.js`):
+1. Open File Explorer
+2. Paste this into the address bar and press Enter:
+   ```
+   %LOCALAPPDATA%\Packages
+   ```
+3. Look for a folder starting with `Claude_` (e.g. `Claude_pzs8sxrjxfjjc`)
+4. Inside it, navigate to:
+   ```
+   LocalCache\Roaming\Claude\claude-code-sessions
+   ```
+5. Open the one subfolder inside, then the one subfolder inside that — you are now in the session index folder. It should contain `local_*.json` files.
+6. Copy the full path from the address bar and pass it to `--target`.
 
-```json
-{
-  "sessionId":              "local_<uuid>",
-  "cliSessionId":           "<jsonl-filename-stem>",
-  "cwd":                    "/path/to/project",
-  "originCwd":              "/path/to/project",
-  "userSelectedFolders":    [],
-  "createdAt":              1234567890000,
-  "lastActivityAt":         1234567890000,
-  "model":                  "claude-opus-4-5",
-  "effort":                 "medium",
-  "isArchived":             false,
-  "title":                  "First message from the session...",
-  "permissionMode":         "acceptEdits",
-  "remoteMcpServersConfig": [],
-  "completedTurns":         12
-}
+### Windows (installed directly, not from the Store)
+
+1. Open File Explorer
+2. Paste this into the address bar and press Enter:
+   ```
+   %APPDATA%\Claude\claude-code-sessions
+   ```
+3. Open the one subfolder, then the subfolder inside that.
+4. Copy the full path and pass it to `--target`.
+
+### macOS
+
+1. Open Finder
+2. Press **Cmd+Shift+G** and paste:
+   ```
+   ~/Library/Application Support/Claude/claude-code-sessions
+   ```
+3. Open the one subfolder, then the subfolder inside that.
+4. Copy the full path and pass it to `--target`.
+
+### Linux
+
 ```
-
-Key invariant: **`sessionId` must equal the filename stem** (`local_<uuid>`). The app's `getSessionFilePath()` builds the path as `join(dir, sessionId + ".json")`.
+~/.config/Claude/claude-code-sessions/<one folder>/<one folder inside that>/
+```
 
 ## Safe to re-run
 
