@@ -2,8 +2,6 @@
 
 Restore lost **Claude Code** sessions in the Claude Desktop app sidebar after an uninstall, reinstall, or update wiped the session index.
 
-> **This is for Claude Code (the AI coding assistant) sessions** — the ones that appear in the left sidebar when you use Claude Desktop in Code mode. It does NOT affect regular Claude chat conversations.
-
 ## The problem
 
 You use **Claude Desktop** (the Windows/macOS app) in **Code mode** — the sidebar on the left shows all your previous Claude Code sessions. After an uninstall, reinstall, or auto-update, that sidebar goes blank. Every session appears gone.
